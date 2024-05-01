@@ -28,7 +28,7 @@ function CreateCabinForm() {
   const { errors } = formState;
 
   function onSubmit(data) {
-    mutate(data);
+    mutate({ ...data, image: data.image[0] });
   }
 
   function onError(/* errors */) {
@@ -87,10 +87,8 @@ function CreateCabinForm() {
           {...register('discount', {
             required: 'This field can not be empty',
             validate: function (value) {
-              return (
-                value <= getValues('regularPrice') ||
-                'Discount can not exceed regular price'
-              );
+              if (Number(value) > Number(getValues('regularPrice')))
+                return 'Discount can not exceed regular price';
             },
           })}
         />
@@ -109,7 +107,12 @@ function CreateCabinForm() {
       </FormRow>
 
       <FormRow label='Cabin photo'>
-        <FileInput id='image' accept='image/*' />
+        <FileInput
+          id='image'
+          accept='image/*'
+          disabled={isCreating}
+          {...register('image', { required: 'This field is required' })}
+        />
       </FormRow>
 
       <FormRow>
