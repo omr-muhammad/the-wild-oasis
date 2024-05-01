@@ -59,7 +59,7 @@ export default function CabinTable() {
         <div></div>
       </TableHeader>
       {cabins.map((cabin) => (
-        <CabinRow key={cabin.id} {...cabin} />
+        <CabinRow key={cabin.id} cabin={cabin} />
       ))}
     </Table>
   );

@@ -12,7 +12,7 @@ export async function getCabins() {
   return data;
 }
 
-export async function deleteCabin(id) {
+export async function deleteCabin(id, image) {
   const { data, error } = await supabase.from('cabins').delete().eq('id', id);
 
   if (error) {
@@ -20,17 +20,33 @@ export async function deleteCabin(id) {
     throw new Error('Cabins could not be deleted');
   }
 
+  // Remove image from storage
+  const imageName = image.split('/').pop();
+  const { error: imageError } = await supabase.storage
+    .from('cabin-images')
+    .remove([imageName]);
+
+  if (imageError) console.log(imageError);
+
   return data;
 }
 
-export async function createCabin(newCabin) {
-  const imagePath = await uploadImage(newCabin.image);
+export async function createEditCabin(newCabin, id) {
+  const imagePath = newCabin?.image?.startsWith?.(supabaseUrl)
+    ? newCabin.image
+    : await uploadImage(newCabin.image);
 
-  const { data, error } = await supabase
-    .from('cabins')
-    // Since the newCabin object props has the same names as the table columns, we can just pass the object
-    .insert([{ ...newCabin, image: imagePath }])
-    .select();
+  const cabin = { ...newCabin, image: imagePath };
+
+  let query = supabase.from('cabins');
+
+  // A) CREATE
+  if (!id) query = query.insert([cabin]);
+
+  // B) UPDATE
+  if (id) query = query.update(cabin).eq('id', id);
+
+  const { data, error } = await query.select().single();
 
   if (error) {
     console.error(error);

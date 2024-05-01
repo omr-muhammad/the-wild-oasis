@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import styled from 'styled-components';
+import toast from 'react-hot-toast';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import CreateCabinForm from './CreateCabinForm.jsx';
 import { formatCurrency } from '../../utils/helpers.js';
 import { deleteCabin } from '../../services/apiCabins.js';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 
 const TableRow = styled.div`
   display: grid;
@@ -43,18 +46,21 @@ const Discount = styled.div`
   color: var(--color-green-700);
 `;
 
-export default function CabinRow({
-  id: cabinId,
-  name,
-  maxCapacity,
-  regularPrice,
-  discount,
-  image,
-  // description,
-}) {
+export default function CabinRow({ cabin }) {
+  const {
+    id: cabinId,
+    name,
+    maxCapacity,
+    regularPrice,
+    discount,
+    image,
+    // description,
+  } = cabin;
+
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const queryClient = useQueryClient();
   const { isPending: isDeleting, mutate } = useMutation({
-    mutationFn: () => deleteCabin(cabinId),
+    mutationFn: () => deleteCabin(cabinId, image),
     onSuccess: () => {
       toast.success('Cabin Successfuly Deleted');
       queryClient.invalidateQueries({ queryKey: ['cabins'] });
@@ -63,15 +69,23 @@ export default function CabinRow({
   });
 
   return (
-    <TableRow role='row'>
-      <Img src={image} />
-      <Cabin>{name}</Cabin>
-      <div>{maxCapacity}</div>
-      <Price>{formatCurrency(regularPrice)}</Price>
-      <Discount>{formatCurrency(discount)}</Discount>
-      <button disabled={isDeleting} onClick={mutate}>
-        Delete
-      </button>
-    </TableRow>
+    <>
+      <TableRow role='row'>
+        <Img src={image} />
+        <Cabin>{name}</Cabin>
+        <div>{maxCapacity}</div>
+        <Price>{formatCurrency(regularPrice)}</Price>
+        <Discount>{formatCurrency(discount)}</Discount>
+        <div>
+          <button onClick={() => setIsFormOpen((prev) => !prev)}>
+            {isFormOpen ? 'Cancel' : 'Edit'}
+          </button>
+          <button disabled={isDeleting} onClick={mutate}>
+            Delete
+          </button>
+        </div>
+      </TableRow>
+      {isFormOpen && <CreateCabinForm cabin={cabin} />}
+    </>
   );
 }
