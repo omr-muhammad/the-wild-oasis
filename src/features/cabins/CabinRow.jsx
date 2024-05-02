@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { HiSquare2Stack } from 'react-icons/hi2';
 
 import CreateCabinForm from './CreateCabinForm.jsx';
 import { formatCurrency } from '../../utils/helpers.js';
 import { useDeleteCabin } from './useDeleteCabin.js';
+import { BiPencil, BiTrash } from 'react-icons/bi';
+import { useCreateCabin } from './useCreateCabin.js';
+import { useForm } from 'react-hook-form';
 
 const TableRow = styled.div`
   display: grid;
@@ -45,6 +49,9 @@ const Discount = styled.div`
 `;
 
 export default function CabinRow({ cabin }) {
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const { reset } = useForm();
+
   const {
     id: cabinId,
     name,
@@ -52,11 +59,22 @@ export default function CabinRow({ cabin }) {
     regularPrice,
     discount,
     image,
-    // description,
+    description,
   } = cabin;
 
-  const [isFormOpen, setIsFormOpen] = useState(false);
   const { isDeleting, deleteCabin } = useDeleteCabin(cabinId, image);
+  const { isCreating, createCabin } = useCreateCabin(reset);
+
+  function handleDuplicate() {
+    createCabin({
+      name: `Copy of ${name}`,
+      maxCapacity,
+      regularPrice,
+      discount,
+      description,
+      image,
+    });
+  }
 
   return (
     <>
@@ -71,11 +89,14 @@ export default function CabinRow({ cabin }) {
           <span>&mdash;</span>
         )}
         <div>
+          <button disabled={isCreating} onClick={handleDuplicate}>
+            <HiSquare2Stack />
+          </button>
           <button onClick={() => setIsFormOpen((prev) => !prev)}>
-            {isFormOpen ? 'Cancel' : 'Edit'}
+            <BiPencil />
           </button>
           <button disabled={isDeleting} onClick={deleteCabin}>
-            Delete
+            <BiTrash />
           </button>
         </div>
       </TableRow>
