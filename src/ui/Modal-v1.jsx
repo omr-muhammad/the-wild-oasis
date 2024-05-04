@@ -1,4 +1,3 @@
-import { createContext, useContext, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { HiXMark } from 'react-icons/hi2';
 import styled from 'styled-components';
@@ -52,49 +51,11 @@ const Button = styled.button`
   }
 `;
 
-// 4 Steps to Create Compound Component
-
-// 1) Create Context
-const ModalContext = createContext();
-
-// 2) Create The Parent Component
-export default function Modal({ children }) {
-  // Creating the state to handle the opened Window by name
-  const [name, setName] = useState('');
-
-  const closeModal = () => setName('');
-  const openModal = (name) => setName(name);
-
-  return (
-    <ModalContext.Provider
-      value={{
-        openModal,
-        closeModal,
-        openedModalName: name,
-      }}
-    >
-      {children}
-    </ModalContext.Provider>
-  );
-}
-
-function OpenButton({ toOpen, render }) {
-  const { openModal } = useContext(ModalContext);
-
-  return render(() => openModal(toOpen));
-}
-
-function Window({ render, name }) {
-  const { openedModalName, closeModal } = useContext(ModalContext);
-
-  if (name !== openedModalName) return null;
-
-  const children = render(closeModal);
-
+export default function Modal({ children, onCloseModal }) {
   return createPortal(
     <Overlay>
       <StyledModal>
-        <Button onClick={closeModal}>
+        <Button onClick={onCloseModal}>
           <HiXMark />
         </Button>
         <div>{children}</div>
@@ -103,6 +64,3 @@ function Window({ render, name }) {
     document.body
   );
 }
-
-Modal.OpenButton = OpenButton;
-Modal.Window = Window;
