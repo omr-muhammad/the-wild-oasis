@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { cloneElement, createElement } from 'react';
 import styled from 'styled-components';
 import { HiSquare2Stack } from 'react-icons/hi2';
 
@@ -8,6 +8,8 @@ import { useDeleteCabin } from './useDeleteCabin.js';
 import { BiPencil, BiTrash } from 'react-icons/bi';
 import { useCreateCabin } from './useCreateCabin.js';
 import { useForm } from 'react-hook-form';
+import CompoundModal from '../../ui/CompoundModal.jsx';
+import ConfirmDelete from '../../ui/ConfirmDelete.jsx';
 
 const TableRow = styled.div`
   display: grid;
@@ -49,7 +51,6 @@ const Discount = styled.div`
 `;
 
 export default function CabinRow({ cabin }) {
-  const [isFormOpen, setIsFormOpen] = useState(false);
   const { reset } = useForm();
 
   const {
@@ -92,15 +93,30 @@ export default function CabinRow({ cabin }) {
           <button disabled={isCreating} onClick={handleDuplicate}>
             <HiSquare2Stack />
           </button>
-          <button onClick={() => setIsFormOpen((prev) => !prev)}>
-            <BiPencil />
-          </button>
-          <button disabled={isDeleting} onClick={deleteCabin}>
-            <BiTrash />
-          </button>
+
+          <CompoundModal
+            toOpen='cabin-form'
+            Component={(close) => (
+              <CreateCabinForm cabin={cabin} onCloseModal={close} />
+            )}
+            name='cabin-form'
+            btnTxt={<BiPencil />}
+            cabin={cabin}
+          />
+
+          <CompoundModal
+            btnTxt={<BiTrash />}
+            Component={(close) => (
+              <ConfirmDelete
+                resourceName='cabins'
+                disabled={isDeleting}
+                onConfirm={() => deleteCabin(cabinId)}
+                onCloseModal={close}
+              />
+            )}
+          />
         </div>
       </TableRow>
-      {isFormOpen && <CreateCabinForm cabin={cabin} />}
     </>
   );
 }

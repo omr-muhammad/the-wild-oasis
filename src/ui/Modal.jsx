@@ -81,15 +81,7 @@ export default function Modal({ children }) {
 function OpenButton({ toOpen, render }) {
   const { openModal } = useContext(ModalContext);
 
-  return (
-    <div
-      style={{
-        textAlign: 'right',
-      }}
-    >
-      {render(() => openModal(toOpen))}
-    </div>
-  );
+  return render(() => openModal(toOpen));
 }
 
 function Window({ render, name }) {
@@ -97,7 +89,7 @@ function Window({ render, name }) {
 
   if (name !== openedModalName) return null;
 
-  const children = render(closeModal);
+  const C = render(closeModal);
 
   function handleClick(e) {
     if (e.target === e.currentTarget) {
@@ -111,7 +103,7 @@ function Window({ render, name }) {
         <Button onClick={closeModal}>
           <HiXMark />
         </Button>
-        <div>{children}</div>
+        <div>{C}</div>
       </StyledModal>
     </Overlay>,
     document.body

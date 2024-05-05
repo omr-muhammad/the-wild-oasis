@@ -6,7 +6,7 @@ export default function CabinModal() {
     <div>
       <CompoundModal
         btnTxt='Add new Cabin'
-        Component={CreateCabinForm}
+        Component={(close) => <CreateCabinForm onCloseModal={close} />}
         toOpen='cabin-form'
         name='cabin-form'
       />

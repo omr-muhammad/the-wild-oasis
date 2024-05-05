@@ -8,12 +8,14 @@ export default function CompoundModal({ btnTxt, Component, toOpen, name }) {
     <Modal>
       <Modal.OpenButton
         toOpen={toOpen}
-        render={(openModal) => <Button onClick={openModal}>{btnTxt}</Button>}
+        render={(openModal) => {
+          if (typeof btnTxt === 'string')
+            return <Button onClick={openModal}>{btnTxt}</Button>;
+
+          return <button onClick={openModal}>{btnTxt}</button>;
+        }}
       />
-      <Modal.Window
-        name={name}
-        render={(close) => <Component onCloseModal={close} />}
-      />
+      <Modal.Window name={name} render={(close) => Component(close)} />
     </Modal>
   );
 }
