@@ -1,27 +1,17 @@
-import { cloneElement, createElement } from 'react';
 import styled from 'styled-components';
+import { useForm } from 'react-hook-form';
 import { HiSquare2Stack } from 'react-icons/hi2';
+import { BiPencil, BiTrash } from 'react-icons/bi';
 
 import CreateCabinForm from './CreateCabinForm.jsx';
-import { formatCurrency } from '../../utils/helpers.js';
-import { useDeleteCabin } from './useDeleteCabin.js';
-import { BiPencil, BiTrash } from 'react-icons/bi';
-import { useCreateCabin } from './useCreateCabin.js';
-import { useForm } from 'react-hook-form';
 import CompoundModal from '../../ui/CompoundModal.jsx';
 import ConfirmDelete from '../../ui/ConfirmDelete.jsx';
+import Table from '../../ui/Table.jsx';
 
-const TableRow = styled.div`
-  display: grid;
-  grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
-  column-gap: 2.4rem;
-  align-items: center;
-  padding: 1.4rem 2.4rem;
+import { useDeleteCabin } from './useDeleteCabin.js';
+import { useCreateCabin } from './useCreateCabin.js';
 
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-`;
+import { formatCurrency } from '../../utils/helpers.js';
 
 const Img = styled.img`
   display: block;
@@ -78,45 +68,43 @@ export default function CabinRow({ cabin }) {
   }
 
   return (
-    <>
-      <TableRow role='row'>
-        <Img src={image} />
-        <Cabin>{name}</Cabin>
-        <div>{maxCapacity}</div>
-        <Price>{formatCurrency(regularPrice)}</Price>
-        {discount > 0 ? (
-          <Discount>{formatCurrency(discount)}</Discount>
-        ) : (
-          <span>&mdash;</span>
-        )}
-        <div>
-          <button disabled={isCreating} onClick={handleDuplicate}>
-            <HiSquare2Stack />
-          </button>
+    <Table.Row role='row'>
+      <Img src={image} />
+      <Cabin>{name}</Cabin>
+      <div>{maxCapacity}</div>
+      <Price>{formatCurrency(regularPrice)}</Price>
+      {discount > 0 ? (
+        <Discount>{formatCurrency(discount)}</Discount>
+      ) : (
+        <span>&mdash;</span>
+      )}
+      <div>
+        <button disabled={isCreating} onClick={handleDuplicate}>
+          <HiSquare2Stack />
+        </button>
 
-          <CompoundModal
-            toOpen='cabin-form'
-            Component={(close) => (
-              <CreateCabinForm cabin={cabin} onCloseModal={close} />
-            )}
-            name='cabin-form'
-            btnTxt={<BiPencil />}
-            cabin={cabin}
-          />
+        <CompoundModal
+          toOpen='cabin-form'
+          Component={(close) => (
+            <CreateCabinForm cabin={cabin} onCloseModal={close} />
+          )}
+          name='cabin-form'
+          btnTxt={<BiPencil />}
+          cabin={cabin}
+        />
 
-          <CompoundModal
-            btnTxt={<BiTrash />}
-            Component={(close) => (
-              <ConfirmDelete
-                resourceName='cabins'
-                disabled={isDeleting}
-                onConfirm={() => deleteCabin(cabinId)}
-                onCloseModal={close}
-              />
-            )}
-          />
-        </div>
-      </TableRow>
-    </>
+        <CompoundModal
+          btnTxt={<BiTrash />}
+          Component={(close) => (
+            <ConfirmDelete
+              resourceName='cabins'
+              disabled={isDeleting}
+              onConfirm={() => deleteCabin(cabinId)}
+              onCloseModal={close}
+            />
+          )}
+        />
+      </div>
+    </Table.Row>
   );
 }
