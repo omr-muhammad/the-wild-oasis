@@ -81,7 +81,15 @@ export default function Modal({ children }) {
 function OpenButton({ toOpen, render }) {
   const { openModal } = useContext(ModalContext);
 
-  return render(() => openModal(toOpen));
+  return (
+    <div
+      style={{
+        textAlign: 'right',
+      }}
+    >
+      {render(() => openModal(toOpen))}
+    </div>
+  );
 }
 
 function Window({ render, name }) {
