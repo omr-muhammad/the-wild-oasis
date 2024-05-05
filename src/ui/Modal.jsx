@@ -91,8 +91,14 @@ function Window({ render, name }) {
 
   const children = render(closeModal);
 
+  function handleClick(e) {
+    if (e.target === e.currentTarget) {
+      closeModal();
+    }
+  }
+
   return createPortal(
-    <Overlay>
+    <Overlay onClick={handleClick}>
       <StyledModal>
         <Button onClick={closeModal}>
           <HiXMark />
