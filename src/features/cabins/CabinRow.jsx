@@ -94,6 +94,8 @@ export default function CabinRow({ cabin }) {
         />
 
         <CompoundModal
+          name='cabin-delete'
+          toOpen='cabin-delete'
           btnTxt={<BiTrash />}
           Component={(close) => (
             <ConfirmDelete
