@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
-import { HiSquare2Stack } from 'react-icons/hi2';
+import { HiEllipsisVertical, HiSquare2Stack } from 'react-icons/hi2';
 import { BiPencil, BiTrash } from 'react-icons/bi';
 
 import CreateCabinForm from './CreateCabinForm.jsx';
-import CompoundModal from '../../ui/CompoundModal.jsx';
 import ConfirmDelete from '../../ui/ConfirmDelete.jsx';
 import Table from '../../ui/Table.jsx';
 
@@ -12,6 +11,8 @@ import { useDeleteCabin } from './useDeleteCabin.js';
 import { useCreateCabin } from './useCreateCabin.js';
 
 import { formatCurrency } from '../../utils/helpers.js';
+import Menus from '../../ui/Menus.jsx';
+import Modal from '../../ui/Modal.jsx';
 
 const Img = styled.img`
   display: block;
@@ -54,7 +55,7 @@ export default function CabinRow({ cabin }) {
   } = cabin;
 
   const { isDeleting, deleteCabin } = useDeleteCabin(cabinId, image);
-  const { isCreating, createCabin } = useCreateCabin(reset);
+  const { createCabin } = useCreateCabin(reset);
 
   function handleDuplicate() {
     createCabin({
@@ -79,33 +80,39 @@ export default function CabinRow({ cabin }) {
         <span>&mdash;</span>
       )}
       <div>
-        <button disabled={isCreating} onClick={handleDuplicate}>
-          <HiSquare2Stack />
-        </button>
+        <Modal>
+          <Menus>
+            <Menus.ToggleMenu menuId={cabinId}>
+              <HiEllipsisVertical />
+            </Menus.ToggleMenu>
 
-        <CompoundModal
-          toOpen='cabin-form'
-          Component={(close) => (
-            <CreateCabinForm cabin={cabin} onCloseModal={close} />
-          )}
-          name='cabin-form'
-          btnTxt={<BiPencil />}
-          cabin={cabin}
-        />
+            <Menus.List menuId={cabinId}>
+              <Menus.Button icon={<HiSquare2Stack />} onClick={handleDuplicate}>
+                Duplicate
+              </Menus.Button>
 
-        <CompoundModal
-          name='cabin-delete'
-          toOpen='cabin-delete'
-          btnTxt={<BiTrash />}
-          Component={(close) => (
+              <Modal.OpenButton toOpen='cabin-form'>
+                <Menus.Button icon={<BiPencil />}>Edit</Menus.Button>
+              </Modal.OpenButton>
+
+              <Modal.OpenButton toOpen='cabin-delete'>
+                <Menus.Button icon={<BiTrash />}>Delete</Menus.Button>
+              </Modal.OpenButton>
+            </Menus.List>
+          </Menus>
+
+          <Modal.Window name='cabin-form'>
+            <CreateCabinForm cabin={cabin} />
+          </Modal.Window>
+
+          <Modal.Window name='cabin-delete'>
             <ConfirmDelete
               resourceName='cabins'
               disabled={isDeleting}
               onConfirm={() => deleteCabin(cabinId)}
-              onCloseModal={close}
             />
-          )}
-        />
+          </Modal.Window>
+        </Modal>
       </div>
     </Table.Row>
   );

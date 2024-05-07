@@ -1,6 +1,9 @@
-import styled from "styled-components";
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import styled from 'styled-components';
+import useOutsideClick from '../hooks/useOutsideClick.js';
 
-const StyledMenu = styled.div`
+const Menu = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -27,13 +30,13 @@ const StyledToggle = styled.button`
 
 const StyledList = styled.ul`
   position: fixed;
-
+  transition: position 10ms linear;
   background-color: var(--color-grey-0);
   box-shadow: var(--shadow-md);
   border-radius: var(--border-radius-md);
 
-  right: ${(props) => props.position.x}px;
-  top: ${(props) => props.position.y}px;
+  right: ${(props) => props.$position.x}px;
+  top: ${(props) => props.$position.y}px;
 `;
 
 const StyledButton = styled.button`
@@ -60,3 +63,104 @@ const StyledButton = styled.button`
     transition: all 0.3s;
   }
 `;
+
+const MenusContext = createContext();
+
+export default function Menus({ children }) {
+  const [openMenuId, setOpenMenuId] = useState('');
+  const [position, setPosition] = useState(null);
+
+  const open = (id) => setOpenMenuId(id);
+  const close = setOpenMenuId;
+
+  return (
+    <MenusContext.Provider
+      value={{
+        openMenuId,
+        open,
+        close,
+        position,
+        setPosition,
+      }}
+    >
+      <Menu>{children}</Menu>
+    </MenusContext.Provider>
+  );
+}
+
+function ToggleMenu({ menuId, children }) {
+  const ref = useRef(null);
+  const { openMenuId, open, close, setPosition } = useContext(MenusContext);
+
+  useEffect(() => {
+    function handleScroll() {
+      if (menuId === openMenuId) {
+        const rect = ref.current.getBoundingClientRect();
+
+        setPosition({
+          x: window.innerWidth - rect.x - rect.width,
+          y: rect.y + rect.height + 8,
+        });
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [menuId, openMenuId, setPosition]);
+
+  function handleClick(e) {
+    const rect = e.target.getBoundingClientRect();
+
+    setPosition({
+      x: window.innerWidth - rect.x - rect.width,
+      y: rect.y + rect.height + 8,
+    });
+
+    openMenuId === '' || menuId !== openMenuId ? open(menuId) : close('');
+  }
+
+  return (
+    <StyledToggle ref={ref} onClick={handleClick}>
+      {children}
+    </StyledToggle>
+  );
+}
+
+function List({ children, menuId }) {
+  const { openMenuId, position, close } = useContext(MenusContext);
+  const ref = useOutsideClick(() => close(''));
+
+  if (menuId !== openMenuId) return null;
+
+  return createPortal(
+    <StyledList ref={ref} $position={{ x: position.x, y: position.y }}>
+      {children}
+    </StyledList>,
+    document.body
+  );
+}
+
+function Button({ children, icon, onClick }) {
+  const { close } = useContext(MenusContext);
+
+  function handleClick() {
+    close('');
+    onClick?.();
+  }
+
+  return (
+    <li onClick={handleClick}>
+      <StyledButton>
+        {icon} <span>{children}</span>
+      </StyledButton>
+    </li>
+  );
+}
+
+Menus.Menu = Menu;
+Menus.ToggleMenu = ToggleMenu;
+Menus.List = List;
+Menus.Button = Button;
