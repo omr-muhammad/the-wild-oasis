@@ -5,6 +5,8 @@ import CabinRow from './CabinRow.jsx';
 import Table from '../../ui/Table.jsx';
 
 import { getCabins } from '../../services/apiCabins.js';
+import { useSearchParams } from 'react-router-dom';
+import useFilterSort from './useFilterSort.js';
 
 const query = {
   queryKey: ['cabins'],
@@ -23,23 +25,38 @@ export function loader(queryClient) {
 
 export default function CabinTable() {
   const { data: cabins, isPending /* error */ } = useQuery(query);
+  const [searchParams] = useSearchParams();
 
-  if (isPending) return <Spinner />;
+  const filterValue = searchParams.get('discount') || 'all';
+  const sortValue = searchParams.get('sortBy') || 'startDate-asc';
+
+  const organizedCabins = useFilterSort(cabins, {
+    filterBy: filterValue,
+    sortBy: sortValue,
+  });
+
+  console.log(organizedCabins);
 
   return (
-    <Table $columns='0.6fr 1.8fr 2.2fr 1fr 1fr 1fr'>
-      <Table.Header>
-        <div></div>
-        <div>Cabin</div>
-        <div>Capacity</div>
-        <div>Price</div>
-        <div>Discount</div>
-        <div></div>
-      </Table.Header>
-      <Table.Body
-        data={cabins}
-        render={(cabin) => <CabinRow key={cabin.id} cabin={cabin} />}
-      />
-    </Table>
+    <>
+      {isPending ? (
+        <Spinner />
+      ) : (
+        <Table $columns='0.6fr 1.8fr 2.2fr 1fr 1fr 1fr'>
+          <Table.Header>
+            <div></div>
+            <div>Cabin</div>
+            <div>Capacity</div>
+            <div>Price</div>
+            <div>Discount</div>
+            <div></div>
+          </Table.Header>
+          <Table.Body
+            data={organizedCabins}
+            render={(cabin) => <CabinRow key={cabin.id} cabin={cabin} />}
+          />
+        </Table>
+      )}
+    </>
   );
 }
