@@ -41,9 +41,9 @@ export default function Filter({ filterField, options }) {
   const dataAttr = `data-${filterField}`;
 
   function handleClick(e) {
-    const { discount } = e.target.dataset;
+    const { [filterField]: value } = e.target.dataset;
 
-    searchParams.set(filterField, discount);
+    searchParams.set(filterField, value);
     setSearchParams(searchParams);
   }
 
