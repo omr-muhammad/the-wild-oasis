@@ -82,23 +82,28 @@ export default function CabinRow({ cabin }) {
       <div>
         <Modal>
           <Menus>
-            <Menus.ToggleMenu menuId={cabinId}>
-              <HiEllipsisVertical />
-            </Menus.ToggleMenu>
+            <Menus.Menu>
+              <Menus.ToggleMenu menuId={cabinId}>
+                <HiEllipsisVertical />
+              </Menus.ToggleMenu>
 
-            <Menus.List menuId={cabinId}>
-              <Menus.Button icon={<HiSquare2Stack />} onClick={handleDuplicate}>
-                Duplicate
-              </Menus.Button>
+              <Menus.List menuId={cabinId}>
+                <Menus.Button
+                  icon={<HiSquare2Stack />}
+                  onClick={handleDuplicate}
+                >
+                  Duplicate
+                </Menus.Button>
 
-              <Modal.OpenButton toOpen='cabin-form'>
-                <Menus.Button icon={<BiPencil />}>Edit</Menus.Button>
-              </Modal.OpenButton>
+                <Modal.OpenButton toOpen='cabin-form'>
+                  <Menus.Button icon={<BiPencil />}>Edit</Menus.Button>
+                </Modal.OpenButton>
 
-              <Modal.OpenButton toOpen='cabin-delete'>
-                <Menus.Button icon={<BiTrash />}>Delete</Menus.Button>
-              </Modal.OpenButton>
-            </Menus.List>
+                <Modal.OpenButton toOpen='cabin-delete'>
+                  <Menus.Button icon={<BiTrash />}>Delete</Menus.Button>
+                </Modal.OpenButton>
+              </Menus.List>
+            </Menus.Menu>
           </Menus>
 
           <Modal.Window name='cabin-form'>

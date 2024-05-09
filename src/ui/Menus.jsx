@@ -83,7 +83,7 @@ export default function Menus({ children }) {
         setPosition,
       }}
     >
-      <Menu>{children}</Menu>
+      {children}
     </MenusContext.Provider>
   );
 }
