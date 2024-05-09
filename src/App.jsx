@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Toaster } from 'react-hot-toast';
 
 // COMPONENTS
 import AppLayout from './ui/AppLayout.jsx';
@@ -21,7 +22,7 @@ import Cabins from './pages/Cabins.jsx';
 
 // LOADERS;
 import { loader as cabinsLoader } from './features/cabins/CabinTable.jsx';
-import { Toaster } from 'react-hot-toast';
+import { loader as bookingsLoader } from './features/bookings/useBookings.js';
 
 const clientQuery = new QueryClient({
   defaultOptions: {
@@ -48,6 +49,7 @@ const router = createBrowserRouter([
       {
         path: 'bookings',
         element: <Bookings />,
+        loader: bookingsLoader(clientQuery),
       },
       {
         path: 'cabins',
