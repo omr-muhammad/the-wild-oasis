@@ -1,5 +1,9 @@
 import styled from 'styled-components';
-import { HiEllipsisVertical, HiEye } from 'react-icons/hi2';
+import {
+  HiArrowDownOnSquare,
+  HiEllipsisVertical,
+  HiEye,
+} from 'react-icons/hi2';
 import { useNavigate } from 'react-router-dom';
 import { format, isToday } from 'date-fns';
 
@@ -52,6 +56,7 @@ function BookingRow({
   },
 }) {
   const navigate = useNavigate();
+  const isNotConfirmed = status === 'unconfirmed';
   const statusToTagName = {
     unconfirmed: 'blue',
     'checked-in': 'green',
@@ -96,6 +101,14 @@ function BookingRow({
           >
             See details
           </Menus.Button>
+          {isNotConfirmed && (
+            <Menus.Button
+              icon={<HiArrowDownOnSquare />}
+              onClick={() => navigate(`/checkin/${bookingId}`)}
+            >
+              Check in
+            </Menus.Button>
+          )}
         </Menus.List>
       </Menus.Menu>
     </Table.Row>

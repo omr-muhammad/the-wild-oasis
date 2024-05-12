@@ -19,11 +19,12 @@ import Settings from './pages/Settings.jsx';
 import Login from './pages/Login.jsx';
 import PageNotFound from './pages/PageNotFound.jsx';
 import Cabins from './pages/Cabins.jsx';
+import Booking from './pages/Booking.jsx';
+import Checkin from './pages/Checkin.jsx';
 
 // LOADERS;
 import { loader as cabinsLoader } from './features/cabins/CabinTable.jsx';
 import { loader as bookingsLoader } from './features/bookings/useBookings.js';
-import Booking from './pages/Booking.jsx';
 
 const clientQuery = new QueryClient({
   defaultOptions: {
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
       {
         path: 'bookings/:bookingId',
         element: <Booking />,
+      },
+      {
+        path: 'checkin/:bookingId',
+        element: <Checkin />,
       },
       {
         path: 'cabins',
