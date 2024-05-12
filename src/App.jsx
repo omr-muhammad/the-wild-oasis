@@ -23,6 +23,7 @@ import Cabins from './pages/Cabins.jsx';
 // LOADERS;
 import { loader as cabinsLoader } from './features/cabins/CabinTable.jsx';
 import { loader as bookingsLoader } from './features/bookings/useBookings.js';
+import Booking from './pages/Booking.jsx';
 
 const clientQuery = new QueryClient({
   defaultOptions: {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
         path: 'bookings',
         element: <Bookings />,
         loader: bookingsLoader(clientQuery),
+      },
+      {
+        path: 'bookings/:bookingId',
+        element: <Booking />,
       },
       {
         path: 'cabins',
