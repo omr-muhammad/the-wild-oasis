@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import {
   HiArrowDownOnSquare,
+  HiArrowUpOnSquare,
   HiEllipsisVertical,
   HiEye,
 } from 'react-icons/hi2';
@@ -13,6 +14,7 @@ import Tag from '../../ui/Tag';
 
 import { formatCurrency } from '../../utils/helpers';
 import { formatDistanceFromNow } from '../../utils/helpers';
+import { useCheckout } from '../check-in-out/useCheckout.js';
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -55,8 +57,10 @@ function BookingRow({
     cabins: { name: cabinName },
   },
 }) {
+  const { checkout, isCheckingOut } = useCheckout();
   const navigate = useNavigate();
   const isNotConfirmed = status === 'unconfirmed';
+  const isCheckedIn = status === 'checked-in';
   const statusToTagName = {
     unconfirmed: 'blue',
     'checked-in': 'green',
@@ -107,6 +111,15 @@ function BookingRow({
               onClick={() => navigate(`/checkin/${bookingId}`)}
             >
               Check in
+            </Menus.Button>
+          )}
+
+          {isCheckedIn && (
+            <Menus.Button
+              icon={<HiArrowUpOnSquare />}
+              onClick={() => checkout(bookingId)}
+            >
+              Check out
             </Menus.Button>
           )}
         </Menus.List>

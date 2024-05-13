@@ -44,6 +44,9 @@ export default function Filter({ filterField, options }) {
     const { [filterField]: value } = e.target.dataset;
 
     searchParams.set(filterField, value);
+
+    if (searchParams.get('page')) searchParams.set('page', 1);
+
     setSearchParams(searchParams);
   }
 
