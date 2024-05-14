@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import StyledForm from '../ui/Form.jsx';
 import Logo from '../ui/Logo.jsx';
 import Heading from '../ui/Heading.jsx';
 import LoginForm from '../features/authentication/LoginForm.jsx';
