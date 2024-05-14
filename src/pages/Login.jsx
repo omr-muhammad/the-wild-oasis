@@ -1,4 +1,8 @@
-import styled from "styled-components";
+import styled from 'styled-components';
+import StyledForm from '../ui/Form.jsx';
+import Logo from '../ui/Logo.jsx';
+import Heading from '../ui/Heading.jsx';
+import LoginForm from '../features/authentication/LoginForm.jsx';
 
 const LoginLayout = styled.main`
   min-height: 100vh;
@@ -11,7 +15,13 @@ const LoginLayout = styled.main`
 `;
 
 function Login() {
-  return <LoginLayout>Login</LoginLayout>;
+  return (
+    <LoginLayout>
+      <Logo />
+      <Heading as='h4'>Login to your account</Heading>
+      <LoginForm />
+    </LoginLayout>
+  );
 }
 
 export default Login;

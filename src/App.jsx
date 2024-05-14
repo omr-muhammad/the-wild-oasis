@@ -9,6 +9,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
 
 // COMPONENTS
+import ProtectedRoute from './ui/ProtectedRoute.jsx';
 import AppLayout from './ui/AppLayout.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import GlobalStyles from './styles/GlobalStyles.js';
@@ -38,45 +39,50 @@ const clientQuery = new QueryClient({
 
 const router = createBrowserRouter([
   {
-    element: <AppLayout />,
+    element: <ProtectedRoute />,
     children: [
       {
-        index: true,
-        element: <Navigate replace={true} to={'/dashboard'} />,
-      },
-      {
-        path: 'dashboard',
-        element: <Dashboard />,
-      },
-      {
-        path: 'bookings',
-        element: <Bookings />,
-        loader: bookingsLoader(clientQuery),
-      },
-      {
-        path: 'bookings/:bookingId',
-        element: <Booking />,
-      },
-      {
-        path: 'checkin/:bookingId',
-        element: <Checkin />,
-      },
-      {
-        path: 'cabins',
-        element: <Cabins />,
-        loader: cabinsLoader(clientQuery),
-      },
-      {
-        path: 'users',
-        element: <Users />,
-      },
-      {
-        path: 'settings',
-        element: <Settings />,
-      },
-      {
-        path: 'account',
-        element: <Account />,
+        element: <AppLayout />,
+        children: [
+          {
+            index: true,
+            element: <Navigate replace={true} to={'/dashboard'} />,
+          },
+          {
+            path: 'dashboard',
+            element: <Dashboard />,
+          },
+          {
+            path: 'bookings',
+            element: <Bookings />,
+            loader: bookingsLoader(clientQuery),
+          },
+          {
+            path: 'bookings/:bookingId',
+            element: <Booking />,
+          },
+          {
+            path: 'checkin/:bookingId',
+            element: <Checkin />,
+          },
+          {
+            path: 'cabins',
+            element: <Cabins />,
+            loader: cabinsLoader(clientQuery),
+          },
+          {
+            path: 'users',
+            element: <Users />,
+          },
+          {
+            path: 'settings',
+            element: <Settings />,
+          },
+          {
+            path: 'account',
+            element: <Account />,
+          },
+        ],
       },
     ],
   },
