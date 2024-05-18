@@ -26,6 +26,7 @@ import Checkin from './pages/Checkin.jsx';
 // LOADERS;
 import { loader as cabinsLoader } from './features/cabins/CabinTable.jsx';
 import { loader as bookingsLoader } from './features/bookings/useBookings.js';
+import DarkModeContextProvider from './contexts/DarkModeContext.jsx';
 
 const clientQuery = new QueryClient({
   defaultOptions: {
@@ -101,28 +102,30 @@ export default function App() {
     <QueryClientProvider client={clientQuery}>
       <ReactQueryDevtools />
       <GlobalStyles />
-      <RouterProvider router={router} />
+      <DarkModeContextProvider>
+        <RouterProvider router={router} />
 
-      <Toaster
-        position='top-center'
-        gutter={12}
-        containerStyle={{ margin: '8px' }}
-        toastOptions={{
-          success: {
-            duration: 2000,
-          },
-          error: {
-            duration: 3500,
-          },
-          style: {
-            fontSize: '1rem',
-            maxWidth: '500px',
-            padding: '1rem 1.5rem',
-            backgroundColor: 'var(--color-grey-100)',
-            color: 'var(--color-grey-700)',
-          },
-        }}
-      />
+        <Toaster
+          position='top-center'
+          gutter={12}
+          containerStyle={{ margin: '8px' }}
+          toastOptions={{
+            success: {
+              duration: 2000,
+            },
+            error: {
+              duration: 3500,
+            },
+            style: {
+              fontSize: '1rem',
+              maxWidth: '500px',
+              padding: '1rem 1.5rem',
+              backgroundColor: 'var(--color-grey-100)',
+              color: 'var(--color-grey-700)',
+            },
+          }}
+        />
+      </DarkModeContextProvider>
     </QueryClientProvider>
   );
 }
