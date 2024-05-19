@@ -7,6 +7,7 @@ import Table from '../../ui/Table.jsx';
 import { getCabins } from '../../services/apiCabins.js';
 import { useSearchParams } from 'react-router-dom';
 import useFilterSort from './useFilterSort.js';
+import { useCabins } from './useCabins.js';
 
 const query = {
   queryKey: ['cabins'],
@@ -24,7 +25,7 @@ export function loader(queryClient) {
 }
 
 export default function CabinTable() {
-  const { data: cabins, isPending /* error */ } = useQuery(query);
+  const { cabins, isLoadingCabins } = useCabins();
   const [searchParams] = useSearchParams();
 
   const filterValue = searchParams.get('discount') || 'all';
@@ -39,7 +40,7 @@ export default function CabinTable() {
 
   return (
     <>
-      {isPending ? (
+      {isLoadingCabins ? (
         <Spinner />
       ) : (
         <Table $columns='0.6fr 1.8fr 2.2fr 1fr 1fr 1fr'>
