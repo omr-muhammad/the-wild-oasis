@@ -36,8 +36,6 @@ export default function CabinTable() {
     sortBy: sortValue,
   });
 
-  console.log(organizedCabins);
-
   return (
     <>
       {isLoadingCabins ? (

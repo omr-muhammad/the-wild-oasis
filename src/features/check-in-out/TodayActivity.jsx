@@ -43,8 +43,7 @@ function TodayActivity() {
   const { isLoadingActivity, activities } = useTodayActivity();
 
   const ActivitiesList =
-    !isLoadingActivity &&
-    (activities.length > 0 ? (
+    !isLoadingActivity && activities.length > 0 ? (
       <TodayList>
         {activities.map((activity) => (
           <TodayItem key={activity.id} activity={activity} />
@@ -52,7 +51,7 @@ function TodayActivity() {
       </TodayList>
     ) : (
       <NoActivity>No activity today...</NoActivity>
-    ));
+    );
 
   return (
     <StyledToday>
