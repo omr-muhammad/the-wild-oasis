@@ -22,11 +22,13 @@ import PageNotFound from './pages/PageNotFound.jsx';
 import Cabins from './pages/Cabins.jsx';
 import Booking from './pages/Booking.jsx';
 import Checkin from './pages/Checkin.jsx';
+import { ErrorBoundary } from 'react-error-boundary';
+import ErrorFallback from './ui/ErrorFallback.jsx';
+import DarkModeContextProvider from './contexts/DarkModeContext.jsx';
 
 // LOADERS;
 import { loader as cabinsLoader } from './features/cabins/CabinTable.jsx';
 import { loader as bookingsLoader } from './features/bookings/useBookings.js';
-import DarkModeContextProvider from './contexts/DarkModeContext.jsx';
 
 const clientQuery = new QueryClient({
   defaultOptions: {
@@ -40,7 +42,14 @@ const clientQuery = new QueryClient({
 
 const router = createBrowserRouter([
   {
-    element: <ProtectedRoute />,
+    element: (
+      <ErrorBoundary
+        FallbackComponent={ErrorFallback}
+        onReset={() => window.location.replace('/')}
+      >
+        <ProtectedRoute />,
+      </ErrorBoundary>
+    ),
     children: [
       {
         element: <AppLayout />,
