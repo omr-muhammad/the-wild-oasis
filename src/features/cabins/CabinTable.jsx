@@ -1,13 +1,13 @@
-import { useQuery } from '@tanstack/react-query';
+import { useSearchParams } from 'react-router-dom';
 
 import Spinner from '../../ui/Spinner.jsx';
 import CabinRow from './CabinRow.jsx';
 import Table from '../../ui/Table.jsx';
 
-import { getCabins } from '../../services/apiCabins.js';
-import { useSearchParams } from 'react-router-dom';
 import useFilterSort from './useFilterSort.js';
 import { useCabins } from './useCabins.js';
+
+import { getCabins } from '../../services/apiCabins.js';
 
 const query = {
   queryKey: ['cabins'],
