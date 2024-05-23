@@ -61,15 +61,15 @@
 - #### Used Technologies
 
   **![React.js](https://img.shields.io/badge/-React-05122A?style=plastic&logo=react)
-  ![Redux.js](https://img.shields.io/badge/-Redux-05122A?style=flat&logo=Redux)
-  ![React-Router.js](https://img.shields.io/badge/-React_Router-05122A?style=flat&logo=react-router)
-  ![React-Query.js](https://img.shields.io/badge/-React_Query-05122A?style=flat&logo=react-query)
-  ![Styled-Components.js](https://img.shields.io/badge/-Styled_Components-05122A?style=flat&logo=styled-components)
-  ![React-Hook-Form.js](https://img.shields.io/badge/-React_Hook_Form-05122A?style=flat&logo=react-hook-form)
-  ![Recharts.js](https://img.shields.io/badge/-Recharts-05122A?style=flat&logo=recharts)
-  ![Supabase.js](https://img.shields.io/badge/-Supabase-05122A?style=flat&logo=supabase)
-  ![Git](https://img.shields.io/badge/-Git-05122A?style=flat&logo=git)&nbsp;
-  ![GitHub](https://img.shields.io/badge/-GitHub-05122A?style=flat&logo=github)&nbsp;**
+  ![Redux.js](https://img.shields.io/badge/-Redux-05122A?style=plastic&logo=Redux)
+  ![React-Router.js](https://img.shields.io/badge/-React_Router-05122A?style=plastic&logo=react-router)
+  ![React-Query.js](https://img.shields.io/badge/-React_Query-05122A?style=plastic&logo=react-query)
+  ![Styled-Components.js](https://img.shields.io/badge/-Styled_Components-05122A?style=plastic&logo=styled-components)
+  ![React-Hook-Form.js](https://img.shields.io/badge/-React_Hook_Form-05122A?style=plastic&logo=react-hook-form)
+  ![Recharts.js](https://img.shields.io/badge/-Recharts-05122A?style=plastic&logo=recharts)
+  ![Supabase.js](https://img.shields.io/badge/-Supabase-05122A?style=plastic&logo=supabase)
+  ![Git](https://img.shields.io/badge/-Git-05122A?style=plastic&logo=git)&nbsp;
+  ![GitHub](https://img.shields.io/badge/-GitHub-05122A?style=plastic&logo=github)&nbsp;**
 
 - #### Patterns & Used Techniques
 
@@ -82,11 +82,11 @@
 
 ## New Tools Aquired
 
-- ![React-Query.js](https://img.shields.io/badge/-React_Query-05122A?style=flat&logo=react-query)
-  ![Styled-Components.js](https://img.shields.io/badge/-Styled_Components-05122A?style=flat&logo=styled-components)
-  ![React-Hook-Form.js](https://img.shields.io/badge/-React_Hook_Form-05122A?style=flat&logo=react-hook-form)
+- ![React-Query.js](https://img.shields.io/badge/-React_Query-05122A?style=plastic&logo=react-query)
+  ![Styled-Components.js](https://img.shields.io/badge/-Styled_Components-05122A?style=plastic&logo=styled-components)
+  ![React-Hook-Form.js](https://img.shields.io/badge/-React_Hook_Form-05122A?style=plastic&logo=react-hook-form)
   ![Recharts.js](https://img.shields.io/badge/-Recharts-05122A?style=flat&logo=recharts)
-  ![Supabase.js](https://img.shields.io/badge/-Supabase-05122A?style=flat&logo=supabase)
+  ![Supabase.js](https://img.shields.io/badge/-Supabase-05122A?style=plastic&logo=supabase)
 
 ## Demo & Screeen Shoots
 
