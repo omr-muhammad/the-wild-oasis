@@ -1,6 +1,6 @@
 # Project Title: The Wild Oasis
 
-**NOTE:** You Can See The App Demo From Here [Demo](https://the-wild-oasis.vercel.app/login) While I'm Created One For ME
+**NOTE:** You Can See The App Demo From Here [Demo](https://the-wild-oasis.vercel.app/login) While I'm Creating One For ME
 
 ## Description
 
