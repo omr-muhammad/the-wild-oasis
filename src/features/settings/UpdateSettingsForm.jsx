@@ -2,10 +2,12 @@ import Form from '../../ui/Form.jsx';
 import FormRow from '../../ui/FormRow.jsx';
 import Input from '../../ui/Input.jsx';
 import Spinner from '../../ui/Spinner.jsx';
+import { useIsAdmin } from '../authentication/useIsAdmin.js';
 import { useSettings } from './useSettings.js';
 import { useUpdateSetting } from './useUpdateSetting.js';
 
 function UpdateSettingsForm() {
+  const isAdmin = useIsAdmin();
   const {
     isLoading,
     // We Can't Desturcture something that doesn't exist
@@ -21,7 +23,7 @@ function UpdateSettingsForm() {
   function handleUpdate(e, fieldName) {
     const { value } = e.target;
 
-    updateSetting({ [fieldName]: value });
+    updateSetting({ [fieldName]: value }, isAdmin);
   }
 
   if (isLoading) return <Spinner />;

@@ -9,8 +9,11 @@ import FormRow from '../../ui/FormRow.jsx';
 
 import { useCreateCabin } from './useCreateCabin.js';
 import { useEditCabin } from './useEditCabin.js';
+import { useIsAdmin } from '../authentication/useIsAdmin.js';
+import toast from 'react-hot-toast';
 
 function CreateCabinForm({ cabin = {}, onCloseModal }) {
+  const isAdmin = useIsAdmin();
   const { id: cabinId, ...cabinValues } = cabin;
   const isEdit = !!cabinId;
   const { register, handleSubmit, reset, getValues, formState } = useForm({
@@ -23,6 +26,11 @@ function CreateCabinForm({ cabin = {}, onCloseModal }) {
   const { errors } = formState;
 
   function onSubmit(data) {
+    if (!isAdmin) {
+      toast.error('Only admins can do this action');
+      return;
+    }
+
     const image = typeof data.image === 'string' ? data.image : data.image[0];
     const newCabinData = { ...data, image };
 

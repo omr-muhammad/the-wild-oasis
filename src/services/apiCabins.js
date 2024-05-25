@@ -12,7 +12,9 @@ export async function getCabins() {
   return data;
 }
 
-export async function deleteCabin(id, image) {
+export async function deleteCabin(id, image, isAdmin) {
+  if (!isAdmin) throw new Error('Only admins can do this action');
+
   const { data, error } = await supabase.from('cabins').delete().eq('id', id);
 
   if (error) {

@@ -13,6 +13,8 @@ import { useCreateCabin } from './useCreateCabin.js';
 import { formatCurrency } from '../../utils/helpers.js';
 import Menus from '../../ui/Menus.jsx';
 import Modal from '../../ui/Modal.jsx';
+import { useIsAdmin } from '../authentication/useIsAdmin.js';
+import toast from 'react-hot-toast';
 
 const Img = styled.img`
   display: block;
@@ -43,6 +45,7 @@ const Discount = styled.div`
 
 export default function CabinRow({ cabin }) {
   const { reset } = useForm();
+  const isAdmin = useIsAdmin();
 
   const {
     id: cabinId,
@@ -58,6 +61,11 @@ export default function CabinRow({ cabin }) {
   const { createCabin } = useCreateCabin(reset);
 
   function handleDuplicate() {
+    if (!isAdmin) {
+      toast.error('Only admins can do this action');
+      return;
+    }
+
     createCabin({
       name: `Copy of ${name}`,
       maxCapacity,
@@ -114,7 +122,7 @@ export default function CabinRow({ cabin }) {
             <ConfirmDelete
               resourceName='cabins'
               disabled={isDeleting}
-              onConfirm={() => deleteCabin(cabinId)}
+              onConfirm={() => deleteCabin(cabinId, image, isAdmin)}
             />
           </Modal.Window>
         </Modal>

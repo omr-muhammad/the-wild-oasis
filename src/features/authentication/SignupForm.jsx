@@ -5,10 +5,12 @@ import FormRow from '../../ui/FormRow';
 import Input from '../../ui/Input';
 import { useSignup } from './useSignup.js';
 import SpinnerMini from '../../ui/SpinnerMini.jsx';
+import { useIsAdmin } from './useIsAdmin.js';
 
 // Email regex: /\S+@\S+\.\S+/
 
 function SignupForm() {
+  const isAdmin = useIsAdmin();
   const { signup, isSigningUp } = useSignup();
   const { register, formState, getValues, handleSubmit, reset } = useForm();
   const { errors } = formState;
@@ -16,7 +18,7 @@ function SignupForm() {
   function onSubmit({ fullName, email, password }) {
     // const { fullName, email, password } = getValues();
     signup(
-      { fullName, email, password },
+      { fullName, email, password, isAdmin },
       {
         onSettled: reset,
       }

@@ -1,6 +1,9 @@
+import { ADMIN_USER_ID } from '../utils/constants.js';
 import supabase, { supabaseUrl } from './supabase.js';
 
-export async function signUp({ fullName, email, password }) {
+export async function signUp({ fullName, email, password, isAdmin }) {
+  if (!isAdmin) throw new Error('Only admins can do this action');
+
   const { error } = await supabase.auth.signUp({
     email,
     password,
@@ -43,6 +46,9 @@ export async function logout() {
 }
 
 export async function updateUserData({ password, fullName, avatar, userId }) {
+  if (userId !== ADMIN_USER_ID)
+    throw new Error('Only admins can do this action');
+
   const avatarPath = avatar ? await uploadAvatar(avatar, userId) : null;
 
   let updateData;
